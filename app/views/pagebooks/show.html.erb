@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Code:</b>
+  <%= @pagebook.code %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @pagebook.status %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_pagebook_path(@pagebook) %> |
+<%= link_to 'Back', pagebooks_path %>

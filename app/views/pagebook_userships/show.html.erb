@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Pagebook:</b>
+  <%= @pagebook_usership.pagebook_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @pagebook_usership.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_pagebook_usership_path(@pagebook_usership) %> |
+<%= link_to 'Back', pagebook_userships_path %>

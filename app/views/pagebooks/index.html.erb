@@ -1,0 +1,30 @@
+<h1>Listing pagebooks</h1>
+
+<table>
+  <tr>
+    <th>Code</th>
+    <th>Status</th>
+    <th>Book Name</th>
+    <th>Lend</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @pagebooks.each do |pagebook| %>
+  <tr>
+    <td><%= pagebook.code %></td>
+    <td><%= pagebook.status %></td>
+    <td></td>
+    <td><%= link_to 'Lend hahha', lend_pagebook_path(pagebook) %></td>
+    <td><%= link_to 'Show', pagebook %></td>
+    <td><%= link_to 'Edit', edit_pagebook_path(pagebook) %></td>
+    <td><%= link_to 'Destroy', pagebook, confirm: 'Are you sure?', method: :delete %></td>
+
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Pagebook', new_pagebook_path %>
