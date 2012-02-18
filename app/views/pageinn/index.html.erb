@@ -1,0 +1,6 @@
+<h1>Welcome to Page-Inn</h1>
+
+
+<%= if user_signed_in? then link_to 'Logout', destroy_user_session_url
+  else link_to 'Login', pageinn_login_url
+end %>

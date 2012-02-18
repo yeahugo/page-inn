@@ -24,9 +24,24 @@ class PagebooksController < ApplicationController
   def lend
     @pagebook = Pagebook.find(params[:id])
 
-    bookid = @pagebook.book_id;
-    @pagebook_to_user = PagebookUsership.new()
+    bookid = @pagebook.book_id
+    @pagebook_to_user = PagebookUsership.new(:pagebook_id => bookid ,:user_id => current_user.id)
     @pagebook_to_user.save
+    Pagebook.update(bookid, :status => '1')
+
+    redirect_to pagebooks_path
+  end
+
+  def return
+    @pagebook = Pagebook.find(params[:id])
+
+    bookid = @pagebook.book_id
+    @pagebook_to_user = PagebookUsership.new(:pagebook_id => bookid,:user_id => current_user.id)
+    @pagebook_to_user.save
+    Pagebook.update(bookid, :status => '0')
+
+    redirect_to pagebooks_path
+
   end
 
   # GET /pagebooks/new

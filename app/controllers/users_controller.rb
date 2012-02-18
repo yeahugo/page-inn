@@ -37,6 +37,17 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
+  def showbooks
+    userid = params[:id]
+    #@books = PagebookUsership.all(:user_id => userid)
+    #redirect_to pagebooks_path
+    @books = PagebookUsership.where("user_id = ?",userid)
+    if @books.count() %2 == 1
+      
+    end
+
+
+  end
   # POST /users
   # POST /users.json
   def create
@@ -80,4 +91,6 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
 end

@@ -1,5 +1,6 @@
 <h1>Listing pagebooks</h1>
-
+ <div><%= if user_signed_in? then link_to 'Logout',destroy_user_session_url
+    else link_to 'Login', pageinn_login_url   end %> <%=link_to 'My books',showbooks_user_path(current_user)%></div>
 <table>
   <tr>
     <th>Code</th>
@@ -10,13 +11,12 @@
     <th></th>
     <th></th>
   </tr>
-
 <% @pagebooks.each do |pagebook| %>
   <tr>
     <td><%= pagebook.code %></td>
-    <td><%= pagebook.status %></td>
+    <td><%= if pagebook.status == 0 then  '可借' else  '不可借' end %></td>
     <td></td>
-    <td><%= link_to 'Lend hahha', lend_pagebook_path(pagebook) %></td>
+    <td><%= if pagebook.status == 0 then link_to 'Lend', lend_pagebook_path(pagebook) else link_to 'Return', return_pagebook_path(pagebook) end%></td>
     <td><%= link_to 'Show', pagebook %></td>
     <td><%= link_to 'Edit', edit_pagebook_path(pagebook) %></td>
     <td><%= link_to 'Destroy', pagebook, confirm: 'Are you sure?', method: :delete %></td>

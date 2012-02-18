@@ -1,14 +1,23 @@
 Page::Application.routes.draw do
+  devise_for :users
+
   resources :pagebook_userships
 
-
-  resources :users
+  resources :users do
+    member do
+      get 'showbooks'
+    end
+  end
 
   resources :pagebooks do
     member do
       get 'lend'
     end
+    member do
+      get 'return'
+    end
   end
+
 
   resources :ebooks
 
@@ -74,4 +83,8 @@ Page::Application.routes.draw do
   # match ':controller(/:action(/:id))(.:format)'
   get "welcome/say_hello" => "welcome#say"
   get "welcome" => "welcome#index"
+  get "pageinn" => "pageinn#index"
+  get "pageinn/login" => "pageinn#login"
+
+  root :to => "pageinn#index"
 end
