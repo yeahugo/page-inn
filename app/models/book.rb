@@ -1,4 +1,3 @@
 class Book < ActiveRecord::Base
-  has_many:pagebooks
-  has_many:ebooks
+  # To change this template use File | Settings | File Templates.
 end

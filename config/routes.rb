@@ -1,7 +1,7 @@
 Page::Application.routes.draw do
   devise_for :users
 
-  resources :pagebook_userships
+  #resources :pagebook_userships
 
   resources :users do
     member do
@@ -9,19 +9,31 @@ Page::Application.routes.draw do
     end
   end
 
-  resources :pagebooks do
-    member do
-      get 'lend'
-    end
-    member do
-      get 'return'
-    end
+  #resources :pagebooks do
+  #  member do
+  #    get 'lend'
+  #  end
+  #  member do
+  #    get 'return'
+  #  end
+  #end
+
+
+  #resources :ebooks
+
+  #match "/:books/:isbn/:id"
+
+  #resources :books
+
+  resources :books do
+
+    #collection do
+    #  get :isbn
+    #end
+
   end
 
 
-  resources :ebooks
-
-  resources :books
 
   resources :people
 
@@ -85,6 +97,8 @@ Page::Application.routes.draw do
   get "welcome" => "welcome#index"
   get "pageinn" => "pageinn#index"
   get "pageinn/login" => "pageinn#login"
+
+  match "books/isbn/:isbnid" => "books#isbn", :constraints => {:id => /\d/}
 
   root :to => "pageinn#index"
 end

@@ -1,3 +1,8 @@
+require 'net/http'
+require "uri"
+require "rexml/document"
+include REXML
+
 class BooksController < ApplicationController
   # GET /books
   # GET /books.json
@@ -13,6 +18,7 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.json
   def show
+
     @book = Book.find(params[:id])
 
     respond_to do |format|
@@ -37,10 +43,38 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
+  def isbn
+    isbn = params[:isbnid]
+
+    str = "http://api.douban.com/book/subject/isbn/"+isbn.to_s
+    puts(str)
+    url = URI.parse(str)
+
+    response = Net::HTTP.get_response(url)
+
+    doc = Document.new response.body.to_s
+
+    title  = doc.root.elements["title"].text
+    author = doc.root.elements["author"].elements["name"].text
+
+    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '')
+    respond_to do |format|
+      if @book.save
+        format.html { redirect_to @book, notice: 'Book was successfully created.' }
+        format.json { render json: @book, status: :created, location: @book }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @book.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /books
   # POST /books.json
   def create
     @book = Book.new(params[:book])
+
+    puts params[:book].inspect
 
     respond_to do |format|
       if @book.save

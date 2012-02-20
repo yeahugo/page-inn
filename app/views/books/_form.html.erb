@@ -12,12 +12,24 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
     <%= f.label :author %><br />
     <%= f.text_field :author %>
   </div>
   <div class="field">
-    <%= f.label :bookname %><br />
-    <%= f.text_field :bookname %>
+    <%= f.label :isbn %><br />
+    <%= f.text_field :isbn %>
+  </div>
+  <div class="field">
+    <%= f.label :root %><br />
+    <%= f.text_field :root %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.number_field :status %>
   </div>
   <div class="actions">
     <%= f.submit %>

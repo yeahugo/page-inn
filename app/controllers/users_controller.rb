@@ -38,14 +38,6 @@ class UsersController < ApplicationController
   end
 
   def showbooks
-    userid = params[:id]
-    #@books = PagebookUsership.all(:user_id => userid)
-    #redirect_to pagebooks_path
-    @books = PagebookUsership.where("user_id = ?",userid)
-    if @books.count() %2 == 1
-      
-    end
-
 
   end
   # POST /users
