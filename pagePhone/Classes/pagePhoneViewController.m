@@ -46,10 +46,10 @@
 }
 
 
-- (IBAction) scanButtonTapped
+- (IBAction) addNewbookButtonTapped
 {
 	
-	NSLog(@"scanButtonl.....");
+	NSLog(@"addNewbookButtonTapped.....");
     // ADD: present a barcode reader that scans from the camera feed
     ZBarReaderViewController *reader = [ZBarReaderViewController new];
     reader.readerDelegate = self;
@@ -66,15 +66,26 @@
     // present and release the controller
 	//reader.showsCameraControls = YES; 
     [self presentModalViewController: reader
-                            animated: YES];
-    //[reader release];
-//	NSString *codeString = @"9787547016466";
-//	NSString *sourceString = [NSString stringWithFormat:@"http://10.18.101.249:3000/books/isbn/"];
-//	NSString *urlString = [sourceString stringByAppendingString:codeString];
-//	NSURL *url = [NSURL URLWithString:urlString];
-//	NSURLRequest *requestc = [NSURLRequest requestWithURL:url];
-//	[[NSURLConnection alloc] initWithRequest:requestc delegate:self startImmediately:YES];
+                            animated: YES];	
+}
+
+- (IBAction) scanButtonTapped
+{
+
+}
+
+- (IBAction) borrowButtonTapped
+{
+	NSLog(@"设备ID:%@",[[UIDevice currentDevice] uniqueIdentifier]);
 	
+	NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
+	
+	NSString *sourceString = [NSString stringWithFormat:@"http://10.18.101.249:3000/books/9787222064331/users/"];
+	NSString *urlString = [sourceString stringByAppendingString:udidString];
+	NSLog(@"usrl string is %@",urlString);
+	NSURL *url = [NSURL URLWithString:urlString];
+	NSURLRequest *requestc = [NSURLRequest requestWithURL:url];
+	[[NSURLConnection alloc] initWithRequest:requestc delegate:self startImmediately:YES];	
 }
 
 - (void) imagePickerController: (UIImagePickerController*) reader

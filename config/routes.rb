@@ -88,6 +88,7 @@ Page::Application.routes.draw do
   get "pageinn/login" => "pageinn#login"
 
   match "books/isbn/:isbnid" => "books#isbn", :constraints => {:id => /\d/}
+  match "books/:isbn/users/:udid" => "books#borrow"
 
   root :to => "pageinn#index"
 end

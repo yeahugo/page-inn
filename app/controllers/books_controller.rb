@@ -102,6 +102,7 @@ class BooksController < ApplicationController
     end
   end
 
+  #在web端借书
   def lend
     @book = Book.find(params[:id])
 
@@ -124,6 +125,16 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
+  #用手机借书
+  def borrow
+    bookid = Book.where("isbn = ?",params[:isbn]).first.id
+    userid = User.where("udid = ?",params[:udid]).first.id
+
+    Book.update(bookid, :status => userid)
+
+    bookUsership = BookUsership.create(:user_id => userid,:book_id => bookid , :is_lend =>1)
+    bookUsership.save
+  end
 
   # POST /books
   # POST /books.json

@@ -16,6 +16,8 @@
 @property (nonatomic, retain) IBOutlet UIImageView *resultImage;
 @property (nonatomic, retain) IBOutlet UITextView *resultText;
 
+- (IBAction) addNewbookButtonTapped;
 - (IBAction) scanButtonTapped;
+- (IBAction) borrowButtonTapped;
 @end
 
