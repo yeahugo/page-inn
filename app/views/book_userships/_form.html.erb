@@ -1,0 +1,29 @@
+<%= form_for(@book_usership) do |f| %>
+  <% if @book_usership.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@book_usership.errors.count, "error") %> prohibited this book_usership from being saved:</h2>
+
+      <ul>
+      <% @book_usership.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :book_id %><br />
+    <%= f.number_field :book_id %>
+  </div>
+  <div class="field">
+    <%= f.label :type %><br />
+    <%= f.number_field :type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

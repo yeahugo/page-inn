@@ -1,0 +1,27 @@
+<h1>Listing book_userships</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Book</th>
+    <th>Type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @book_userships.each do |book_usership| %>
+  <tr>
+    <td><%= book_usership.user_id %></td>
+    <td><%= book_usership.book_id %></td>
+    <td><%= book_usership.type %></td>
+    <td><%= link_to 'Show', book_usership %></td>
+    <td><%= link_to 'Edit', edit_book_usership_path(book_usership) %></td>
+    <td><%= link_to 'Destroy', book_usership, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Book usership', new_book_usership_path %>

@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+<p><%=request.env["HTTP_USER_AGENT"][/(Macintosh)/]  %></p>
+<p>
+  <b>Title:</b>
+  <%= @book.title %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%= @book.author %>
+</p>
+
+<p>
+  <b>Isbn:</b>
+  <%= @book.isbn %>
+</p>
+
+<p>
+  <b>Root:</b>
+  <%= @book.root %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @book.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_book_path(@book) %> |
+<%= link_to 'Back', books_path %>

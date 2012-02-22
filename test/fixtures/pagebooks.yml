@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  code: MyString
+  status: 1
+  Book_id: 1
+  List_id: 
+
+two:
+  code: MyString
+  status: 1
+  Book_id: 1
+  List_id: 
