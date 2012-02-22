@@ -43,31 +43,87 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
   end
 
+  def iOS_user_agent?
+    request.env["HTTP_USER_AGENT"] && request.env["HTTP_USER_AGENT"][/(pagePhone)/]
+  end
+
   def isbn
     isbn = params[:isbnid]
 
+    isbnArray = Book.select("isbn")
+
+    isbnArray.each do |e|
+      if e["isbn"] == isbn
+      render 'welcome/index', :status => "600" and return false
+      end
+    end
+
     str = "http://api.douban.com/book/subject/isbn/"+isbn.to_s
-    puts(str)
     url = URI.parse(str)
 
     response = Net::HTTP.get_response(url)
 
     doc = Document.new response.body.to_s
 
+    @book
+
     title  = doc.root.elements["title"].text
     author = doc.root.elements["author"].elements["name"].text
 
-    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '')
+    if title
+      @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0')
+    end
+
+    if iOS_user_agent?
+      if @book && @book.save
+        render 'welcome/index',:status => "200"
+      else
+        render 'welcome/index', :status => "500"
+      end
+
+    else
+
     respond_to do |format|
       if @book.save
+        if iOS_user_agent?
+          render 'welcome/index'
+          render :text => "OK"
+        end
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render json: @book, status: :created, location: @book }
       else
+        if iOS_user_agent?
+          render :status => 400
+        end
         format.html { render action: "new" }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
     end
+    end
   end
+
+  def lend
+    @book = Book.find(params[:id])
+
+    bookid = @book.id
+    Book.update(bookid, :status => current_user.id)
+
+    bookUsership = BookUsership.create(:user_id => current_user.id,:book_id => bookid , :is_lend =>1)
+    bookUsership.save
+    redirect_to books_path
+  end
+
+  def return
+    @book = Book.find(params[:id])
+
+    bookid = @book.id
+    Book.update(bookid, :status => '0')
+
+    bookUsership = BookUsership.create(:user_id => current_user.id,:book_id => bookid , :is_lend =>0)
+    bookUsership.save
+    redirect_to books_path
+  end
+
 
   # POST /books
   # POST /books.json

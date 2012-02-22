@@ -38,8 +38,18 @@ class UsersController < ApplicationController
   end
 
   def showbooks
+    #select "books".* from "books" inner join "book_userships" on "books"."id" = "book_userships"."id"
+    #@books = Book.joins(:book_userships).where("user_id = ? and status = '1'",current_user.id)
 
+    #@books = BookUsership.joins(:book).where("user_id = ? and status = '1'",current_user.id)
+    @books = Book.joins(:user).where("users.id = ? and status != '0'",current_user.id)
+    puts @books.inspect
+    respond_to do |format|
+      format.html
+      format.json { render json: @books}
+    end
   end
+
   # POST /users
   # POST /users.json
   def create

@@ -1,7 +1,13 @@
 Page::Application.routes.draw do
+  #resources :book_userships
+
   devise_for :users
 
-  #resources :pagebook_userships
+  #resources :users do
+  #  member do
+  #    get 'showbooks'
+  #  end
+  #end
 
   resources :users do
     member do
@@ -9,33 +15,16 @@ Page::Application.routes.draw do
     end
   end
 
-  #resources :pagebooks do
-  #  member do
-  #    get 'lend'
-  #  end
-  #  member do
-  #    get 'return'
-  #  end
-  #end
-
-
-  #resources :ebooks
-
-  #match "/:books/:isbn/:id"
-
-  #resources :books
-
   resources :books do
-
-    #collection do
-    #  get :isbn
-    #end
-
+    member do
+      get 'lend'
+    end
+    member do
+      get 'return'
+    end
   end
 
-
-
-  resources :people
+  #resources :people
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -86,7 +75,7 @@ Page::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  #root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

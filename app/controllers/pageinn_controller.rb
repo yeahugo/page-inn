@@ -1,7 +1,6 @@
 class PageinnController < ApplicationController
   def index
-    redirect_to pagebooks_url
-
+    redirect_to books_url
   end
 
   def login

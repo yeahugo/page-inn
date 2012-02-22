@@ -1,5 +1,5 @@
 <p id="notice"><%= notice %></p>
-
+<p><%=request.env["HTTP_USER_AGENT"][/(Macintosh)/]  %></p>
 <p>
   <b>Title:</b>
   <%= @book.title %>

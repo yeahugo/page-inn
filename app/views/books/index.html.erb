@@ -1,11 +1,12 @@
 <h1>Listing books</h1>
-
-<table>
+<div><%= if user_signed_in? then  link_to 'Logout',destroy_user_session_path
+         else link_to 'Login', pageinn_login_path  end %><%= if user_signed_in? then link_to 'My Books',showbooks_user_path(current_user.id)  end%></div>
+  <table>
   <tr>
     <th>Title</th>
     <th>Author</th>
     <th>Isbn</th>
-    <th>Root</th>
+
     <th>Status</th>
     <th></th>
     <th></th>
@@ -17,8 +18,12 @@
     <td><%= book.title %></td>
     <td><%= book.author %></td>
     <td><%= book.isbn %></td>
-    <td><%= book.root %></td>
-    <td><%= book.status %></td>
+
+    <td><%= if book.status == 0 && user_signed_in?
+             link_to 'Lend',lend_book_path(book)
+             elsif book.status == 0 && !(user_signed_in?)
+             'in'
+            else 'out' end%></td>
     <td><%= link_to 'Show', book %></td>
     <td><%= link_to 'Edit', edit_book_path(book) %></td>
     <td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method: :delete %></td>
