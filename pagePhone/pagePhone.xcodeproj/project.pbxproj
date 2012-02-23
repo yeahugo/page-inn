@@ -25,6 +25,7 @@
 		38BC079214F25B7F000C9012 /* zbar-helpicons.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC078D14F25B7F000C9012 /* zbar-helpicons.png */; };
 		38BC079314F25B7F000C9012 /* zbar-samples.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC078E14F25B7F000C9012 /* zbar-samples.png */; };
 		38BC07A814F25C21000C9012 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BC07A714F25C21000C9012 /* QuartzCore.framework */; };
+		38F0E81314F5E6BD00EDEA07 /* sign_in.html in Resources */ = {isa = PBXBuildFile; fileRef = 38F0E81214F5E6BD00EDEA07 /* sign_in.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		38BC078D14F25B7F000C9012 /* zbar-helpicons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-helpicons.png"; sourceTree = "<group>"; };
 		38BC078E14F25B7F000C9012 /* zbar-samples.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zbar-samples.png"; sourceTree = "<group>"; };
 		38BC07A714F25C21000C9012 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		38F0E81214F5E6BD00EDEA07 /* sign_in.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sign_in.html; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* pagePhone-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "pagePhone-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				38F0E81214F5E6BD00EDEA07 /* sign_in.html */,
 				2899E5210DE3E06400AC0155 /* pagePhoneViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* pagePhone-Info.plist */,
@@ -278,6 +281,7 @@
 				38BC079114F25B7F000C9012 /* zbar-help.html in Resources */,
 				38BC079214F25B7F000C9012 /* zbar-helpicons.png in Resources */,
 				38BC079314F25B7F000C9012 /* zbar-samples.png in Resources */,
+				38F0E81314F5E6BD00EDEA07 /* sign_in.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

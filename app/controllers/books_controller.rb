@@ -54,7 +54,7 @@ class BooksController < ApplicationController
 
     isbnArray.each do |e|
       if e["isbn"] == isbn
-      render 'welcome/index', :status => "600" and return false
+      render :nothing => true, :status => "600" and return false
       end
     end
 
@@ -76,9 +76,9 @@ class BooksController < ApplicationController
 
     if iOS_user_agent?
       if @book && @book.save
-        render 'welcome/index',:status => "200"
+        render :nothing => true,:status => "200"
       else
-        render 'welcome/index', :status => "500"
+        render :nothing => true, :status => "500"
       end
 
     else
@@ -86,14 +86,13 @@ class BooksController < ApplicationController
     respond_to do |format|
       if @book.save
         if iOS_user_agent?
-          render 'welcome/index'
-          render :text => "OK"
+          render :nothing => true
         end
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render json: @book, status: :created, location: @book }
       else
         if iOS_user_agent?
-          render :status => 400
+          render :status => "400"
         end
         format.html { render action: "new" }
         format.json { render json: @book.errors, status: :unprocessable_entity }
@@ -127,13 +126,42 @@ class BooksController < ApplicationController
 
   #用手机借书
   def borrow
-    bookid = Book.where("isbn = ?",params[:isbn]).first.id
-    userid = User.where("udid = ?",params[:udid]).first.id
+
+    #有对应udid的用户
+    if User.where("udid = ?",params[:udid]).count >0
+      userid = User.where("udid = ?",params[:udid]).first.id
+
+    #没有对应udid，如果已经登陆的情况下，把用户的udid号和用户账号绑定
+    elsif user_signed_in?
+        udid = params[:udid]
+        userid = current_user.id
+        User.update(current_user.id,:udid =>udid)
+    else
+      render :nothing => true,:status => "410" and return false
+      return false
+    end
+
+    if Book.where("isbn = ?",params[:isbn]).count == 0
+      render :nothing => true, :status => "412" and return false
+    end
+    book = Book.where("isbn = ?",params[:isbn]).first
+
+    bookid = book.id
+    book_status = book.status
+
+    if book_status != 0
+      render :nothing => true, :status => "411" and return false
+    end
+
+    if userid == nil then userid = User.where("udid = ?",params[:udid]).first.id end
 
     Book.update(bookid, :status => userid)
 
     bookUsership = BookUsership.create(:user_id => userid,:book_id => bookid , :is_lend =>1)
-    bookUsership.save
+
+    if bookUsership.save
+     render :nothing => true, :status => "211" and return false
+    end
   end
 
   # POST /books

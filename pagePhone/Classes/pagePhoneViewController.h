@@ -9,9 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "ZBarSDK.h"
 
-@interface pagePhoneViewController : UIViewController< ZBarReaderDelegate > {
+typedef enum{
+	Scan = 0,
+	Add,
+	Borrow,
+	Return,
+}Action;
+
+@interface pagePhoneViewController : UIViewController< ZBarReaderDelegate,UIWebViewDelegate> {
 	UIImageView *resultImage;
     UITextView *resultText;
+	Action theAction;
+	UIWebView *loginWebView;
+	NSString *codeString;
 }
 @property (nonatomic, retain) IBOutlet UIImageView *resultImage;
 @property (nonatomic, retain) IBOutlet UITextView *resultText;
@@ -19,5 +29,7 @@
 - (IBAction) addNewbookButtonTapped;
 - (IBAction) scanButtonTapped;
 - (IBAction) borrowButtonTapped;
+
+-(void) scanBarCode;
 @end
 

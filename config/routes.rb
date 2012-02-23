@@ -2,11 +2,8 @@ Page::Application.routes.draw do
   #resources :book_userships
 
   devise_for :users
-
-  #resources :users do
-  #  member do
-  #    get 'showbooks'
-  #  end
+  #def after_sign_in_path_for(resource)
+  #  request.referer
   #end
 
   resources :users do
@@ -90,5 +87,5 @@ Page::Application.routes.draw do
   match "books/isbn/:isbnid" => "books#isbn", :constraints => {:id => /\d/}
   match "books/:isbn/users/:udid" => "books#borrow"
 
-  root :to => "pageinn#index"
+  root :to => "books#index"
 end
