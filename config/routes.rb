@@ -17,7 +17,7 @@ Page::Application.routes.draw do
       get 'lend'
     end
     member do
-      get 'return'
+      get 'returnbook'
     end
   end
 
@@ -86,6 +86,7 @@ Page::Application.routes.draw do
 
   match "books/isbn/:isbnid" => "books#isbn", :constraints => {:id => /\d/}
   match "books/:isbn/users/:udid" => "books#borrow"
+  match "books/:isbn/users/:udid/return" => "books#returnbook"
 
   root :to => "books#index"
 end

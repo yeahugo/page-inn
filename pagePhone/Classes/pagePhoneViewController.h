@@ -17,19 +17,20 @@ typedef enum{
 }Action;
 
 @interface pagePhoneViewController : UIViewController< ZBarReaderDelegate,UIWebViewDelegate> {
-	UIImageView *resultImage;
     UITextView *resultText;
 	Action theAction;
 	UIWebView *loginWebView;
 	NSString *codeString;
 }
-@property (nonatomic, retain) IBOutlet UIImageView *resultImage;
+
 @property (nonatomic, retain) IBOutlet UITextView *resultText;
 
 - (IBAction) addNewbookButtonTapped;
 - (IBAction) scanButtonTapped;
 - (IBAction) borrowButtonTapped;
+- (IBAction) returnButtonTapped;
 
+-(void) sendRequest;
 -(void) scanBarCode;
 @end
 

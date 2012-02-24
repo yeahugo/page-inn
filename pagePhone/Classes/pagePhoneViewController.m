@@ -11,7 +11,7 @@
 
 @implementation pagePhoneViewController
 
-@synthesize resultImage, resultText;
+@synthesize  resultText;
 
 /*
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -63,6 +63,18 @@
 	theAction = Scan;
 }
 
+- (IBAction) borrowButtonTapped
+{
+	[self scanBarCode];
+	theAction = Borrow;
+}
+
+- (IBAction) returnButtonTapped
+{
+	[self scanBarCode];
+	theAction = Return;
+}
+
 -(void) scanBarCode
 {
     ZBarReaderViewController *reader = [ZBarReaderViewController new];
@@ -81,30 +93,7 @@
                             animated: YES];	
 }
 
-
-- (IBAction) borrowButtonTapped
-{
-	[self scanBarCode];
-	theAction = Borrow;
-}
-
--(void)sendBorrowRequest
-{
-	
-	NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
-	
-	NSMutableString *urlString = [NSMutableString stringWithFormat:@"http://10.18.101.249:3000/books/"];
-	NSLog(@"resultText is %@",resultText.text);
-	[urlString appendString:codeString];
-	[urlString appendString:@"/users/"];
-	[urlString appendString:udidString];
-	
-	NSLog(@"usrl string is %@",urlString);
-	NSURL *url = [NSURL URLWithString:urlString];
-	NSURLRequest *requestc = [NSURLRequest requestWithURL:url];
-	[[NSURLConnection alloc] initWithRequest:requestc delegate:self startImmediately:YES];		
-}
-
+#pragma mark UIImagePickerControllerDelegate
 - (void) imagePickerController: (UIImagePickerController*) reader
  didFinishPickingMediaWithInfo: (NSDictionary*) info
 {
@@ -119,10 +108,6 @@
     // EXAMPLE: do something useful with the barcode data
     resultText.text = symbol.data;
 	
-    // EXAMPLE: do something useful with the barcode image
-    //resultImage.image =[info objectForKey: UIImagePickerControllerOriginalImage];
-	
-    // ADD: dismiss the controller (NB dismiss from the *reader*!)
     [reader dismissModalViewControllerAnimated: YES];
 	[codeString release];
 	codeString = symbol.data;
@@ -130,43 +115,49 @@
 	NSLog(@"codestring is %@",codeString);
 	
 	
+	[self sendRequest];
+}
+
+-(void)sendRequest
+{
+	NSMutableString *urlString = [[NSMutableString alloc] init];
+	[urlString appendString:@"http://10.18.101.249:3000/books/"];
 	switch (theAction) {
 		case Add:
 		{
-			NSString *sourceString = [NSString stringWithFormat:@"http://10.18.101.249:3000/books/isbn/"];
-			NSString *urlString = [sourceString stringByAppendingString:codeString];
-			NSURL *url = [NSURL URLWithString:urlString];
-			NSURLRequest *requestc = [NSURLRequest requestWithURL:url];
-			[[NSURLConnection alloc] initWithRequest:requestc delegate:self startImmediately:YES];			
+			[urlString appendString:@"isbn/"];
+			[urlString appendString:codeString];
 			break;
 		}
 		case Borrow:
 		{
-			NSLog(@"设备ID:%@",[[UIDevice currentDevice] uniqueIdentifier]);
+			NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
+			[urlString appendString:codeString];
+			[urlString appendString:@"/users/"];
+			[urlString appendString:udidString];
 			
-			[self sendBorrowRequest];
 			break;
 		}
-		case Scan:
+		case Return:
 		{
-			
-			break;		
+			NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
+			[urlString appendString:codeString];
+			[urlString appendString:@"/users/"];
+			[urlString appendString:udidString];
+			[urlString appendString:@"/return"];
+			break;
 		}	
-
 		default:
 			break;
 	}
 	
+	NSURL *url = [NSURL URLWithString:urlString];
+	NSURLRequest *requestc = [NSURLRequest requestWithURL:url];
+	[[NSURLConnection alloc] initWithRequest:requestc delegate:self startImmediately:YES];				
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-	NSLog(@"start loading....");
-	//NSString *url = [[webView.request URL]  path];
-	
-	NSLog(@"header is %@",[[webView.request allHTTPHeaderFields] description]);
-}
 
+#pragma mark UIWebViewDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 	NSString *refererString = [webView.request valueForHTTPHeaderField:@"Referer"];
@@ -177,13 +168,12 @@
 		[successAlertView show];
 		[successAlertView release];
 		
-		[self sendBorrowRequest];
+		[self sendRequest];
 	}
 	NSLog(@"finish header is %@",[[webView.request allHTTPHeaderFields] description]);
 }
 
-
-
+#pragma mark NSURLConnection
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
 	NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
@@ -193,6 +183,11 @@
 		{
 			if (statusCode == 200) {
 				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"成功" message:@"录入图书成功" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];
+			}
+			if (statusCode == 412) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"没有获取到此书籍数据" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 				[successAlertView show];
 				[successAlertView release];
 			}
@@ -228,8 +223,7 @@
 				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"图书馆还没有此书籍" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 				[successAlertView show];
 				[successAlertView release];				
-			}
-			
+			}			
 			if (statusCode == 411) {
 				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"此书尚未归还" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 				[successAlertView show];
@@ -243,10 +237,34 @@
 			
 			break;		
 		}
+		case Return:
+		{
+			if (statusCode == 413) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"没有绑定手机" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];		
+			}
+			if (statusCode == 412) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"没有录入此书籍" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];		
+			}
+			if (statusCode == 414) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"你没有借入此书籍" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];		
+			}
+			if (statusCode == 212) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"成功" message:@"还书成功" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];		
+			}
+			break;		
+		}
+
 		default:
 			break;
-	}
-	
+	}	
 }
 
 
@@ -272,6 +290,12 @@
 
 
 - (void)dealloc {
+	[resultText release];
+	resultText = nil;
+	[loginWebView release];
+	loginWebView = nil;
+	[codeString release];
+	codeString = nil;
     [super dealloc];
 }
 

@@ -1,6 +1,6 @@
 <h1>Listing books</h1>
 <div><%= if user_signed_in? then  link_to 'Logout',destroy_user_session_path
-         else link_to 'Login', pageinn_login_path  end %><%= if user_signed_in? then link_to 'My Books',showbooks_user_path(current_user.id)  end%></div>
+         else link_to 'Login', pageinn_login_path  end %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= if user_signed_in? then link_to 'My Books',showbooks_user_path(current_user.id)  end%></div>
   <table>
   <tr>
     <th>Title</th>
@@ -20,7 +20,7 @@
     <td><%= book.isbn %></td>
 
     <td><%= if book.status == 0 && user_signed_in?
-             link_to 'Lend',lend_book_path(book)
+             link_to 'borrow',lend_book_path(book)
              elsif book.status == 0 && !(user_signed_in?)
              'in'
             else 'out' end%></td>
