@@ -28,8 +28,11 @@
     <%= f.text_field :root %>
   </div>
   <div class="field">
-    <%= f.label :status %><br />
-    <%= f.number_field :status %>
+    <%= f.label :owner %><br />
+    <!--<%= select :book,:owner,User.all.collect{|p| [p.email, p.id]}%>-->
+    <!--<%= select :book,:owner,options_from_collection_for_select(User.all, :id, :email)%>-->
+    <%= collection_select(:book, :owner, User.all, :id, :email) %>
+    <!--<%= f.select :owner ,options_from_collection_for_select(User.all, :id, :email) %>-->
   </div>
   <div class="actions">
     <%= f.submit %>

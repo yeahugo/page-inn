@@ -90,7 +90,6 @@
 
 -(void) scanBarCode
 {
-    //ZBarReaderViewController *reader = [ZBarReaderViewController new];
 	ZBarReaderViewController *reader = [[ZBarReaderViewController alloc] init];
     reader.readerDelegate = self;
     reader.supportedOrientationsMask = ZBarOrientationMaskAll;
