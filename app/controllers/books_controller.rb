@@ -101,6 +101,7 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
+  #用手机udid还书
   def returnbook
     if params[:udid]
       udid = params[:udid]
@@ -133,7 +134,7 @@ class BooksController < ApplicationController
     end
   end
 
-  #用手机借书
+  #用手机udid借书
   def borrow
 
     #有对应udid的用户
@@ -165,6 +166,43 @@ class BooksController < ApplicationController
     if bookUsership.save
      render :nothing => true, :status => "211" and return false
     end
+  end
+
+  #用二维码借书
+  def borrowmatrix
+    unless book = Book.where("isbn = ?",params[:isbn]).first
+      render :nothing => true, :status => "412" and return false
+    end
+
+    if book.status != 0
+      render :nothing => true, :status => "411" and return false
+    end
+
+    Book.update(book.id, :status => session[:current_user_id])
+
+    bookUsership = BookUsership.create(:user_id => session[:current_user_id],:book_id => book.id , :is_lend =>1)
+
+    if bookUsership.save
+      render :nothing => true, :status => "211" and return false
+    end
+
+  end
+
+  #用二维码还书
+  def returnmatrix
+    unless book = Book.where("isbn = ?",params[:isbn]).first
+      render :nothing =>true, :status => 412, and return false
+    end
+    unless book = Book.where("isbn = ? and status = ?",params[:isbn],session[:current_user_id]).first
+      render :nothing =>true, :status =>414, and return false
+    end
+
+    Book.update(book, :status => "0")
+    bookUsership = BookUsership.create(:user_id => session[:current_user_id],:book_id => book.id , :is_lend =>0)
+    if bookUsership.save
+      render :nothing =>true, :status => 212, and return false
+    end
+
   end
 
   # POST /books

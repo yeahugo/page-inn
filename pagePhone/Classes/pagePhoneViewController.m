@@ -75,9 +75,23 @@
 	theAction = Return;
 }
 
+- (IBAction) borrowMatrixCodeButton
+{
+	[self scanBarCode];
+	theAction = BorrowMatrix;
+}
+
+- (IBAction) returnMatrixCodeButton
+{
+	[self scanBarCode];
+	theAction = ReturnMatrix;	
+}
+
+
 -(void) scanBarCode
 {
-    ZBarReaderViewController *reader = [ZBarReaderViewController new];
+    //ZBarReaderViewController *reader = [ZBarReaderViewController new];
+	ZBarReaderViewController *reader = [[ZBarReaderViewController alloc] init];
     reader.readerDelegate = self;
     reader.supportedOrientationsMask = ZBarOrientationMaskAll;
 	
@@ -102,13 +116,13 @@
     [info objectForKey: ZBarReaderControllerResults];
     ZBarSymbol *symbol = nil;
     for(symbol in results)
-        // EXAMPLE: just grab the first barcode
         break;
 	
     // EXAMPLE: do something useful with the barcode data
     resultText.text = symbol.data;
 	
     [reader dismissModalViewControllerAnimated: YES];
+	[reader release];
 	[codeString release];
 	codeString = symbol.data;
 	[codeString retain];
@@ -121,32 +135,65 @@
 -(void)sendRequest
 {
 	NSMutableString *urlString = [[NSMutableString alloc] init];
-	[urlString appendString:@"http://10.18.101.249:3000/books/"];
 	switch (theAction) {
 		case Add:
 		{
+			[urlString appendString:@"http://10.18.101.249:3000/books/"];
+
 			[urlString appendString:@"isbn/"];
 			[urlString appendString:codeString];
 			break;
 		}
 		case Borrow:
 		{
-			NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
+			[urlString appendString:@"http://10.18.101.249:3000/books/"];
+
 			[urlString appendString:codeString];
 			[urlString appendString:@"/users/"];
+			NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
 			[urlString appendString:udidString];
 			
 			break;
 		}
 		case Return:
 		{
+			[urlString appendString:@"http://10.18.101.249:3000/books/"];
+
 			NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
 			[urlString appendString:codeString];
 			[urlString appendString:@"/users/"];
 			[urlString appendString:udidString];
 			[urlString appendString:@"/return"];
 			break;
-		}	
+		}
+		case BorrowMatrix:
+		{
+			[urlString appendString:@"http://10.18.101.249:3000/matrix/"];
+			[urlString appendString:codeString];
+			break;		
+		}
+		case ReturnMatrix:
+		{
+			[urlString appendString:@"http://10.18.101.249:3000/matrix/"];
+			[urlString appendString:codeString];
+			[urlString appendString:@"/return"];
+			break;
+		}
+		case BorrowBookMatrix:
+		{
+			[urlString appendString:@"http://10.18.101.249:3000/booksmatrix/"];
+			[urlString appendString:codeString];
+			theAction = Borrow;
+			break;		
+		}
+		case ReturnBookMatrix:
+		{
+			[urlString appendString:@"http://10.18.101.249:3000/booksmatrix/"];
+			[urlString appendString:codeString];
+			[urlString appendString:@"/return"];
+			theAction = Return;
+			break;		
+		}
 		default:
 			break;
 	}
@@ -261,13 +308,52 @@
 			}
 			break;		
 		}
-
+		case BorrowMatrix:
+		{
+			if (statusCode == 211) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"成功" message:@"获取用户成功,请扫描要借书籍" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				successAlertView.tag = 11;
+				[successAlertView show];
+				[successAlertView release];	
+				
+				theAction = BorrowBookMatrix;
+			}
+			if (statusCode == 412) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"没有二维码相对应用户" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];	
+			}
+			break;		
+		}
+		case ReturnMatrix:
+		{
+			if (statusCode == 211) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"成功" message:@"获取用户成功,请扫描要还书籍" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				successAlertView.tag = 11;
+				[successAlertView show];
+				[successAlertView release];	
+				
+				theAction = ReturnBookMatrix;
+			}
+			if (statusCode == 412) {
+				UIAlertView *successAlertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"没有二维码相对应用户" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+				[successAlertView show];
+				[successAlertView release];	
+			}
+			break;		
+		}
+	
 		default:
 			break;
 	}	
 }
 
-
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	if (alertView.tag ==11) {
+		[self scanBarCode];
+	}
+}
 /*
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

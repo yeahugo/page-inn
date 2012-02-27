@@ -14,9 +14,13 @@ typedef enum{
 	Add,
 	Borrow,
 	Return,
+	BorrowMatrix,
+	ReturnMatrix,
+	BorrowBookMatrix,
+	ReturnBookMatrix,
 }Action;
 
-@interface pagePhoneViewController : UIViewController< ZBarReaderDelegate,UIWebViewDelegate> {
+@interface pagePhoneViewController : UIViewController< ZBarReaderDelegate,UIWebViewDelegate,UIAlertViewDelegate> {
     UITextView *resultText;
 	Action theAction;
 	UIWebView *loginWebView;
@@ -30,7 +34,10 @@ typedef enum{
 - (IBAction) borrowButtonTapped;
 - (IBAction) returnButtonTapped;
 
--(void) sendRequest;
--(void) scanBarCode;
+- (IBAction) borrowMatrixCodeButton;
+- (IBAction) returnMatrixCodeButton;
+
+- (void) sendRequest;
+- (void) scanBarCode;
 @end
 
