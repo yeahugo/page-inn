@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-<p><%=request.env["HTTP_USER_AGENT"][/(Macintosh)/]  %></p>
 <p>
   <b>Title:</b>
   <%= @book.title %>
@@ -14,15 +13,14 @@
   <b>Isbn:</b>
   <%= @book.isbn %>
 </p>
-
 <p>
-  <b>Root:</b>
+  <b><%= if @book.root then puts "Root:" end%></b>
   <%= @book.root %>
 </p>
 
 <p>
   <b>Status:</b>
-  <%= @book.status %>
+  <%= if @book.status!=0 then User.find(@book.status).email end%>
 </p>
 
 <p>

@@ -34,7 +34,7 @@
       <file leaf-file-name="book.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/models/book.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="18" selection-start="231" selection-end="235" vertical-scroll-proportion="0.0">
+            <state line="5" column="2" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -58,15 +58,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="edit.html.erb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/books/edit.html.erb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/books/index.html.erb">
           <provider selected="true" editor-type-id="text-editor">
@@ -76,10 +67,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="show.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="show.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/books/show.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="28" selection-start="376" selection-end="376" vertical-scroll-proportion="-18.125">
+            <state line="16" column="40" selection-start="217" selection-end="217" vertical-scroll-proportion="0.29375765">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pageinn_controller.rb" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/pageinn_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -88,16 +88,16 @@
       <file leaf-file-name="users_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="40" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="_form.html.erb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="_form.html.erb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/books/_form.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="0" selection-start="922" selection-end="922" vertical-scroll-proportion="0.67931455">
+            <state line="37" column="0" selection-start="922" selection-end="922" vertical-scroll-proportion="-23.125">
               <folding />
             </state>
           </provider>
@@ -133,17 +133,17 @@
         <option value="$PROJECT_DIR$/app/controllers/pageinn_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/users/showbooks.erb" />
-        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
         <option value="$PROJECT_DIR$/app/controllers/books_controller.rb" />
         <option value="$PROJECT_DIR$/config/routes.rb" />
         <option value="$PROJECT_DIR$/app/views/users/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/users/_form.html.erb" />
         <option value="$PROJECT_DIR$/db/migrate/20120227054450_change_user_id_to_books.rb" />
-        <option value="$PROJECT_DIR$/app/models/book.rb" />
         <option value="$PROJECT_DIR$/app/models/user.rb" />
-        <option value="$PROJECT_DIR$/app/views/books/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/books/index.html.erb" />
         <option value="$PROJECT_DIR$/app/views/books/_form.html.erb" />
+        <option value="$PROJECT_DIR$/app/models/book.rb" />
+        <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/books/show.html.erb" />
       </list>
     </option>
   </component>
@@ -155,8 +155,8 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="482" />
-    <option name="y" value="22" />
+    <option name="x" value="322" />
+    <option name="y" value="343" />
     <option name="width" value="1920" />
     <option name="height" value="985" />
   </component>
@@ -960,7 +960,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="482" y="22" width="1920" height="985" extended-state="0" />
+    <frame x="322" y="343" width="1920" height="985" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1036,13 +1036,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/views/users/edit.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="0" selection-start="110" selection-end="110" vertical-scroll-proportion="-3.75">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/users/_form.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="26" column="0" selection-start="604" selection-end="604" vertical-scroll-proportion="-16.25">
@@ -1071,13 +1064,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/books_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="21" selection-start="753" selection-end="757" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/lib/rubymine.jar!/standardSchemas/xhtml1-transitional.xsd">
       <provider selected="true" editor-type-id="text-editor">
         <state line="364" column="10" selection-start="10489" selection-end="10491" vertical-scroll-proportion="0.5469679">
@@ -1085,42 +1071,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/books/new.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="17" selection-start="533" selection-end="533" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/books/edit.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/book.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="18" selection-start="231" selection-end="235" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/books/show.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="28" selection-start="376" selection-end="376" vertical-scroll-proportion="-18.125">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
@@ -1134,6 +1085,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/books/_form.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="0" selection-start="922" selection-end="922" vertical-scroll-proportion="-23.125">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/pageinn_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/user.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="17" selection-start="533" selection-end="533" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/book.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="2" selection-start="219" selection-end="219" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/books/new.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/books_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="21" selection-start="753" selection-end="757" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/users_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/books/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="31" selection-start="641" selection-end="641" vertical-scroll-proportion="-13.75">
@@ -1141,9 +1141,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/books/_form.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/books/show.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="0" selection-start="922" selection-end="922" vertical-scroll-proportion="0.67931455">
+        <state line="16" column="40" selection-start="217" selection-end="217" vertical-scroll-proportion="0.29375765">
           <folding />
         </state>
       </provider>
