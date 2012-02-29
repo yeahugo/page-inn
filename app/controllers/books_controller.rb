@@ -49,52 +49,39 @@ class BooksController < ApplicationController
 
   def isbn
     isbn = params[:isbnid]
-
-    isbnArray = Book.select("isbn")
-
-    isbnArray.each do |e|
-      if e["isbn"] == isbn
-      render 'welcome/index', :status => "600" and return false
-      end
+    unless Book.where("isbn = ?",isbn).first.nil?
+      render :nothing => true, :status => "600" and return false
     end
 
     str = "http://api.douban.com/book/subject/isbn/"+isbn.to_s
+
     url = URI.parse(str)
-
     response = Net::HTTP.get_response(url)
-
     doc = Document.new response.body.to_s
 
-    @book
+    if doc.root.nil?
+      render :nothing => true, :status => "412" and return false
+    end
 
     title  = doc.root.elements["title"].text
     author = doc.root.elements["author"].elements["name"].text
 
-    if title
-      @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0')
-    end
+    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0')
 
     if iOS_user_agent?
-      if @book && @book.save
-        render 'welcome/index',:status => "200"
+      if @book.save
+        render :nothing => true,:status => "200"
       else
-        render 'welcome/index', :status => "500"
+        render :nothing => true, :status => "500"
       end
 
     else
 
     respond_to do |format|
       if @book.save
-        if iOS_user_agent?
-          render 'welcome/index'
-          render :text => "OK"
-        end
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
         format.json { render json: @book, status: :created, location: @book }
       else
-        if iOS_user_agent?
-          render :status => 400
-        end
         format.html { render action: "new" }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
@@ -102,6 +89,7 @@ class BooksController < ApplicationController
     end
   end
 
+  #在web端借书
   def lend
     @book = Book.find(params[:id])
 
@@ -113,17 +101,109 @@ class BooksController < ApplicationController
     redirect_to books_path
   end
 
-  def return
-    @book = Book.find(params[:id])
+  #用手机udid还书
+  def returnbook
+    if params[:udid]
+      udid = params[:udid]
 
-    bookid = @book.id
-    Book.update(bookid, :status => '0')
+      unless user = User.where("udid = ?",udid).first
+        render :nothing => true, :status => 413, and  return false
+      end
 
-    bookUsership = BookUsership.create(:user_id => current_user.id,:book_id => bookid , :is_lend =>0)
+      unless book = Book.where("isbn = ?",params[:isbn]).first
+        render :nothing =>true, :status => 412, and return false
+      end
+      unless book = Book.where("isbn = ? and status = ?",params[:isbn],user.id).first
+        render :nothing =>true, :status =>414, and return false
+      end
+
+      Book.update(book, :status => "0")
+      bookUsership = BookUsership.create(:user_id => user.id,:book_id => book.id , :is_lend =>0)
+      if bookUsership.save
+        render :nothing =>true, :status => 212, and return false
+      end
+
+    else
+    book = Book.find(params[:id])
+
+    Book.update(book.id, :status => '0')
+
+    bookUsership = BookUsership.create(:user_id => current_user.id,:book_id => book.id , :is_lend =>0)
     bookUsership.save
     redirect_to books_path
+    end
   end
 
+  #用手机udid借书
+  def borrow
+
+    #有对应udid的用户
+    if user = User.where("udid = ?",params[:udid]).first
+      userid = user.id
+
+    #没有对应udid，如果已经登陆的情况下，把用户的udid号和用户账号绑定
+    elsif user_signed_in?
+        udid = params[:udid]
+        userid = current_user.id
+        User.update(current_user.id,:udid =>udid)
+    else
+      render :nothing => true,:status => "410" and return false
+      return false
+    end
+
+    unless book = Book.where("isbn = ?",params[:isbn]).first
+      render :nothing => true, :status => "412" and return false
+    end
+
+    if book.status != 0
+      render :nothing => true, :status => "411" and return false
+    end
+
+    Book.update(book.id, :status => userid)
+
+    bookUsership = BookUsership.create(:user_id => userid,:book_id => book.id , :is_lend =>1)
+
+    if bookUsership.save
+     render :nothing => true, :status => "211" and return false
+    end
+  end
+
+  #用二维码借书
+  def borrowmatrix
+    unless book = Book.where("isbn = ?",params[:isbn]).first
+      render :nothing => true, :status => "412" and return false
+    end
+
+    if book.status != 0
+      render :nothing => true, :status => "411" and return false
+    end
+
+    Book.update(book.id, :status => session[:current_user_id])
+
+    bookUsership = BookUsership.create(:user_id => session[:current_user_id],:book_id => book.id , :is_lend =>1)
+
+    if bookUsership.save
+      render :nothing => true, :status => "211" and return false
+    end
+
+  end
+
+  #用二维码还书
+  def returnmatrix
+    unless book = Book.where("isbn = ?",params[:isbn]).first
+      render :nothing =>true, :status => 412, and return false
+    end
+    unless book = Book.where("isbn = ? and status = ?",params[:isbn],session[:current_user_id]).first
+      render :nothing =>true, :status =>414, and return false
+    end
+
+    Book.update(book, :status => "0")
+    bookUsership = BookUsership.create(:user_id => session[:current_user_id],:book_id => book.id , :is_lend =>0)
+    if bookUsership.save
+      render :nothing =>true, :status => 212, and return false
+    end
+
+  end
 
   # POST /books
   # POST /books.json

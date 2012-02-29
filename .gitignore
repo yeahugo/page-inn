@@ -47,7 +47,11 @@ pickle-email-*.html
 xcuserdata
 profile
 *.moved-aside
+<<<<<<< HEAD
 
 .DS_Store
 .idea
 
+=======
+.DS_Store
+>>>>>>> refs/heads/develop

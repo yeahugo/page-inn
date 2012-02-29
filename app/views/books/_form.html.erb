@@ -28,8 +28,8 @@
     <%= f.text_field :root %>
   </div>
   <div class="field">
-    <%= f.label :status %><br />
-    <%= f.number_field :status %>
+    <%= f.label :owner %><br />
+    <%= select :book,:owner,User.all.collect{|p| [p.email, p.id]}.prepend(['',''])%>
   </div>
   <div class="actions">
     <%= f.submit %>

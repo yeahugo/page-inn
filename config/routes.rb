@@ -3,12 +3,6 @@ Page::Application.routes.draw do
 
   devise_for :users
 
-  #resources :users do
-  #  member do
-  #    get 'showbooks'
-  #  end
-  #end
-
   resources :users do
     member do
       get 'showbooks'
@@ -20,7 +14,7 @@ Page::Application.routes.draw do
       get 'lend'
     end
     member do
-      get 'return'
+      get 'returnbook'
     end
   end
 
@@ -88,6 +82,14 @@ Page::Application.routes.draw do
   get "pageinn/login" => "pageinn#login"
 
   match "books/isbn/:isbnid" => "books#isbn", :constraints => {:id => /\d/}
+  match "books/:isbn/users/:udid" => "books#borrow"
+  match "books/:isbn/users/:udid/return" => "books#returnbook"
 
-  root :to => "pageinn#index"
+  match "booksmatrix/:isbn" =>"books#borrowmatrix"
+  match "booksmatrix/:isbn/return" =>"books#returnmatrix"
+
+  match "matrix/:code" => "users#matrix"
+  match "matrix/:code/return" => "users#matrix"
+
+  root :to => "books#index"
 end

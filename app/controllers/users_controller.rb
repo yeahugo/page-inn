@@ -37,12 +37,18 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def showbooks
-    #select "books".* from "books" inner join "book_userships" on "books"."id" = "book_userships"."id"
-    #@books = Book.joins(:book_userships).where("user_id = ? and status = '1'",current_user.id)
+  def matrix
+    if user = User.where("users.matrixcode = ?",params[:code]).first
+      session[:current_user_id] = user.id
+      render :nothing =>true, :status => 211, and return
+    else
+      render :nothing =>true, :status => 412, and return
+    end
+  end
 
-    #@books = BookUsership.joins(:book).where("user_id = ? and status = '1'",current_user.id)
-    @books = Book.joins(:user).where("users.id = ? and status != '0'",current_user.id)
+  def showbooks
+    @books = Book.joins('LEFT OUTER JOIN users ON books.status = users.id')
+    #@books = Book.joins(:user).where("users.id = ? and status != '0'",current_user.id)
     puts @books.inspect
     respond_to do |format|
       format.html
