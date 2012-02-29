@@ -12,7 +12,6 @@
 <% @ebooks.each do |ebook| %>
   <tr>
     <td><%= ebook.root %></td>
-    <td><%= ebook.b_id %></td>
     <td><%= link_to 'Show', ebook %></td>
     <td><%= link_to 'Edit', edit_ebook_path(ebook) %></td>
     <td><%= link_to 'Destroy', ebook, confirm: 'Are you sure?', method: :delete %></td>

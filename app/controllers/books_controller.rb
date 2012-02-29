@@ -208,10 +208,20 @@ class BooksController < ApplicationController
   # POST /books
   # POST /books.json
   def create
-    @book = Book.new(params[:book])
-
     puts params[:book].inspect
 
+    unless params[:book][:root].nil?
+      directory = "/Users/ios_umeng/Public/eBook/"
+      # create the file path
+      path = File.join(directory, params[:book][:root])
+
+      # write the file
+      File.open(path, "wb") { |f| f.write(params[:book][:root]) }
+      params[:book][:root] = path
+      @book = Book.new(params[:book])
+    else
+      @book = Book.new(params[:book])
+    end
     respond_to do |format|
       if @book.save
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
@@ -222,6 +232,7 @@ class BooksController < ApplicationController
       end
     end
   end
+
 
   # PUT /books/1
   # PUT /books/1.json

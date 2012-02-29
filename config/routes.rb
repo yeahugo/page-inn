@@ -1,6 +1,8 @@
 Page::Application.routes.draw do
   #resources :book_userships
 
+  resources :ebooks
+
   devise_for :users
 
   resources :users do

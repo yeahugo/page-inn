@@ -12,13 +12,16 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :root %><br />
-    <%= f.text_field :root %>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
   </div>
-  <div class="field">
-    <%= f.label :b_id %><br />
-    <%= f.text_field :b_id %>
-  </div>
+    <div class="field">
+      <%= f.label :author %><br />
+      <%= f.text_field :author %>
+    </div>
+  <%= file_field 'book', 'root' %>
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
