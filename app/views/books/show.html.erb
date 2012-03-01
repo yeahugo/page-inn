@@ -1,32 +1,39 @@
-<p id="notice"><%= notice %></p>
+<h1>Book</h1>
+
 <p>
-  <b>Title:</b>
+  <b>Title</b><br>
   <%= @book.title %>
 </p>
 
 <p>
-  <b>Author:</b>
+  <b>Author</b><br>
   <%= @book.author %>
 </p>
 
 <p>
-  <b>Isbn:</b>
+  <b>Isbn</b><br>
   <%= @book.isbn %>
 </p>
+
 <p>
-  <b><%= if @book.root then puts "Root:" end%></b>
+  <b>Status</b><br>
+  <%= if @book.status!=0 then User.find(@book.status).email else "in" end%>
+</p>
+
+<p>
+  <b>Owner</b><br>
+  <%= if @book.owner then User.find(@book.owner).email end%>
+</p>
+
+<p>
+  <b><%= if @book.root!="" then "Root" end%></b><br>
   <%= @book.root %>
 </p>
 
-<p>
-  <b>Status:</b>
-  <%= if @book.status!=0 then User.find(@book.status).email end%>
-</p>
 
-<p>
-  <b>Owner:</b>
-  <%= unless @book.owner.nil? then User.find(@book.owner).email end%>
-</p>
 
-<%= link_to 'Edit', edit_book_path(@book) %> |
-<%= link_to 'Back', books_path %>
+<div class="form-actions">
+  <%= link_to 'Back', books_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_book_path(@book), :class => 'btn' %>
+  <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

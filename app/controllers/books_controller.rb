@@ -212,11 +212,15 @@ class BooksController < ApplicationController
 
     unless params[:book][:root].nil?
       directory = "/Users/ios_umeng/Public/eBook/"
-      # create the file path
-      path = File.join(directory, params[:book][:root])
+      puts params.inspect
+      path = File.join(directory, params[:book][:root].original_filename)
 
-      # write the file
-      File.open(path, "wb") { |f| f.write(params[:book][:root]) }
+      File.open(path, "wb") { |f| f.write(params[:book]['root'].read) }
+
+      #uploaded_io = params[:book][:root]
+      #File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'w') do |file|
+      #  file.write(uploaded_io.read)
+      #  end
       params[:book][:root] = path
       @book = Book.new(params[:book])
     else

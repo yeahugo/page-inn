@@ -1,36 +1,28 @@
-<h1>Listing books</h1>
-<div><%= if user_signed_in? then  link_to 'Logout',destroy_user_session_path
-         else link_to 'Login', pageinn_login_path  end %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= if user_signed_in? then link_to 'My Books',showbooks_user_path(current_user.id)  end%></div>
-  <table>
-  <tr>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Isbn</th>
-
-    <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @books.each do |book| %>
-  <tr>
-    <td><%= book.title %></td>
-    <td><%= book.author %></td>
-    <td><%= book.isbn %></td>
-
-    <td><%= if book.status == 0 && user_signed_in?
-             link_to 'borrow',lend_book_path(book)
-             elsif book.status == 0 && !(user_signed_in?)
-             'in'
-            else 'out' end%></td>
-    <td><%= link_to 'Show', book %></td>
-    <td><%= link_to 'Edit', edit_book_path(book) %></td>
-    <td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Books</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Status</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <tr>
+        <td><%= link_to book.title, book_path(book) %></td>
+        <td><%= book.author%></td>
+        <td><%= if book.status==0 then 'in' else 'out'end%></td>
+        <td><%= book.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_book_path(book), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', book_path(book), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Book', new_book_path %>
+<%= link_to 'New', new_book_path, :class => 'btn btn-primary' %>

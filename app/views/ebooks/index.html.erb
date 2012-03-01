@@ -1,9 +1,9 @@
 <h1>Listing ebooks</h1>
 
-<table>
+<table class="table table-striped">
   <tr>
+    <th>Title</th>
     <th>Root</th>
-    <th>B</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,12 +11,14 @@
 
 <% @ebooks.each do |ebook| %>
   <tr>
+    <td><%= ebook.title %></td>
     <td><%= ebook.root %></td>
     <td><%= link_to 'Show', ebook %></td>
-    <td><%= link_to 'Edit', edit_ebook_path(ebook) %></td>
+    <td><%= link_to 'Edit', edit_book_path(ebook) %></td>
     <td><%= link_to 'Destroy', ebook, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
+
 </table>
 
 <br />
