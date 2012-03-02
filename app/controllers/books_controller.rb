@@ -8,7 +8,8 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = Book.all
-
+    recommender = BookRecommender.new
+    recommender.recommend
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
