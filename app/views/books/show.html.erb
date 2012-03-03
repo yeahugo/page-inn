@@ -1,5 +1,5 @@
 <h1>Book</h1>
-
+<br>
 <p>
   <b>Title</b><br>
   <%= @book.title %>
@@ -37,3 +37,23 @@
   <%= link_to 'Edit', edit_book_path(@book), :class => 'btn' %>
   <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
 </div>
+
+
+<p>Recommend Books</p>
+<table class="table table-striped">  
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @recommendBooks.each do |book| %>
+      <tr>
+        <td><%= link_to book.title, book_path(book.id) %></td>
+        <td><%= book.author %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+

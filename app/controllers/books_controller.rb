@@ -8,8 +8,6 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     @books = Book.all
-    recommender = BookRecommender.new
-    recommender.recommend
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -21,6 +19,13 @@ class BooksController < ApplicationController
   def show
 
     @book = Book.find(params[:id])
+
+    recommender = BookRecommender.new
+    reBooks = recommender.recommend(@book.id)
+
+    @recommendBooks = reBooks.map do |book|
+      Book.find(book.item_id)
+    end
 
     respond_to do |format|
       format.html # show.html.erb
