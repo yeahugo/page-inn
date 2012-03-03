@@ -24,6 +24,8 @@ end
 
 gem "recommendify","~> 0.2.3"
 
+gem "will_paginate"
+
 gem 'redis'
 
 gem 'jquery-rails'

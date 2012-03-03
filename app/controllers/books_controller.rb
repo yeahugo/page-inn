@@ -1,13 +1,15 @@
 require 'net/http'
 require "uri"
 require "rexml/document"
+
 include REXML
 
 class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
+    #@books = Book.all
+    @books = Book.paginate(:page => params[:page], :per_page => 30, :order => 'updated_at DESC')
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -23,9 +25,11 @@ class BooksController < ApplicationController
     recommender = BookRecommender.new
     reBooks = recommender.recommend(@book.id)
 
-    @recommendBooks = reBooks.map do |book|
-      Book.find(book.item_id)
+    bookidArray = reBooks.map do |book|
+      if book.similarity > 0.5 then book.item_id end
     end
+
+    @recommendBooks = Book.find(bookidArray)
 
     respond_to do |format|
       format.html # show.html.erb
