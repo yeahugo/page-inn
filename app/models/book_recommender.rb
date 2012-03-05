@@ -27,10 +27,6 @@ class BookRecommender
         newbookship[book[:user_id]]<<book[:book_id]
     end
 
-    #puts     newbookship.inspect
-    #
-    #puts booksship.inspect
-
     recommender.order_items.all_items.each do |item|
       recommender.order_items.delete_item(item)
     end
@@ -42,21 +38,9 @@ class BookRecommender
 
     recommender.process!
 
-    #recommendBook =  Array.new
     recommendBook = recommender.for(item_id)
 
-    puts recommendBook.inspect
-
     return    recommendBook
-
-    #puts     recommender.order_items.all_items.inspect
-
-    #puts    recommender.for("31").inspect
-
-    #recommender.for("28").map do |rec|
-    #puts rec.item_id
-    #puts rec.similarity
-    #end
 
     end
 end

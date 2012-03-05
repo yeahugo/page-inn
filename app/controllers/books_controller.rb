@@ -1,6 +1,7 @@
 require 'net/http'
 require "uri"
 require "rexml/document"
+require "open-uri"
 
 include REXML
 
@@ -9,7 +10,7 @@ class BooksController < ApplicationController
   # GET /books.json
   def index
     #@books = Book.all
-    @books = Book.paginate(:page => params[:page], :per_page => 30, :order => 'updated_at DESC')
+    @books = Book.paginate(:page => params[:page], :per_page => 30)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -29,7 +30,29 @@ class BooksController < ApplicationController
       if book.similarity > 0.5 then book.item_id end
     end
 
-    @recommendBooks = Book.find(bookidArray)
+    isbn= @book.isbn
+    str = "http://api.douban.com/book/subject/isbn/"+isbn
+
+    url = URI.parse(str)
+    response = Net::HTTP.get_response(url)
+    doc = Document.new response.body.to_s
+
+    imageURL = doc.root.elements["link"].next_element.next_element.attributes["href"]
+
+    index = imageURL=~/spic/
+    imageURL[index,1] = "l"
+
+    data = open(imageURL){|f|f.read}
+    open("public/assets/books/"+isbn+".jpg","wb"){|f|f.write(data)}
+
+    if doc.root.nil?
+      render :nothing => true, :status => "412" and return false
+    end
+
+    puts bookidArray.inspect
+    if bookidArray.first !=nil
+      @recommendBooks = Book.find(bookidArray)
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -75,6 +98,14 @@ class BooksController < ApplicationController
 
     title  = doc.root.elements["title"].text
     author = doc.root.elements["author"].elements["name"].text
+
+    imageURL = doc.root.elements["link"].next_element.next_element.attributes["href"]
+
+    index = imageURL=~/spic/
+    imageURL[index,1] = "l"
+
+    data = open(imageURL){|f|f.read}
+    open("public/assets/books/"+isbn+".jpg","wb"){|f|f.write(data)}
 
     @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0')
 
@@ -227,10 +258,6 @@ class BooksController < ApplicationController
 
       File.open(path, "wb") { |f| f.write(params[:book]['root'].read) }
 
-      #uploaded_io = params[:book][:root]
-      #File.open(Rails.root.join('public', 'uploads', uploaded_io.original_filename), 'w') do |file|
-      #  file.write(uploaded_io.read)
-      #  end
       params[:book][:root] = path
       @book = Book.new(params[:book])
     else

@@ -1,35 +1,51 @@
 <h1>Book</h1>
 <br>
-<p>
-  <b>Title</b><br>
-  <%= @book.title %>
-</p>
 
-<p>
-  <b>Author</b><br>
-  <%= @book.author %>
-</p>
+<div class="container-fluid">
 
-<p>
-  <b>Isbn</b><br>
-  <%= @book.isbn %>
-</p>
+  <div class="span4">
+    <ul class="thumbnails">
+      <li class="span4">
+        <div  class="thumbnail">
+          <%= image_tag("books/"+@book.isbn+".jpg" )%>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="span4">
+    <p>
+      <b>Title</b><br>
+      <%= @book.title %>
+    </p>
 
-<p>
-  <b>Status</b><br>
-  <%= if @book.status!=0 then User.find(@book.status).email else "in" end%>
-</p>
+    <p>
+      <b>Author</b><br>
+      <%= @book.author %>
+    </p>
 
-<p>
-  <b>Owner</b><br>
-  <%= if @book.owner then User.find(@book.owner).email end%>
-</p>
+    <p>
+      <b>Isbn</b><br>
+      <%= @book.isbn %>
+    </p>
 
-<p>
-  <b><%= if @book.root!="" then "Root" end%></b><br>
-  <%= @book.root %>
-</p>
+    <p>
+      <b>Status</b><br>
+      <%= if @book.status!=0 then User.find(@book.status).email else "in" end%>
+    </p>
 
+    <p>
+      <b>Owner</b><br>
+      <%= if @book.owner then User.find(@book.owner).email end%>
+    </p>
+
+    <p>
+      <b><%= if @book.root!="" then "Root" end%></b><br>
+      <%= @book.root %>
+    </p>
+  </div>
+
+
+</div>
 
 
 <div class="form-actions">
@@ -38,22 +54,18 @@
   <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
 </div>
 
+<%unless @recommendBooks.nil? then%>
+<h4>Recommend Books</h4>
 
-<p>Recommend Books</p>
-<table class="table table-striped">  
-  <thead>
-  <tr>
-    <th>Title</th>
-    <th>Author</th>
-  </tr>
-  </thead>
-  <tbody>
+<ul class="thumbnails">
   <% @recommendBooks.each do |book| %>
-      <tr>
-        <td><%= link_to book.title, book_path(book.id) %></td>
-        <td><%= book.author %></td>
-      </tr>
+      <li class="span2">
+        <a class="thumbnail" href="<%= book.id %>" style="height:120px">
+        <%= image_tag "books/"+book.isbn+".jpg", {:width => 60}%>
+        <p><%= book.title%></p>
+        </a>
+      </li>
   <% end %>
-  </tbody>
-</table>
+</ul>
+<%end%>
 
