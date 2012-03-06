@@ -2,7 +2,7 @@
 <br>
 
 <div class="container-fluid">
-
+<% unless @book.isbn.nil? %>
   <div class="span4">
     <ul class="thumbnails">
       <li class="span4">
@@ -12,6 +12,8 @@
       </li>
     </ul>
   </div>
+<%end%>
+  
   <div class="span4">
     <p>
       <b>Title</b><br>
@@ -37,7 +39,10 @@
       <b>Owner</b><br>
       <%= if @book.owner then User.find(@book.owner).email end%>
     </p>
-
+    <p>
+      <b></b><br>
+      <%= @book.summary.to_s%>
+    </p>
     <p>
       <b><%= if @book.root!="" then "Root" end%></b><br>
       <%= @book.root %>
@@ -53,7 +58,7 @@
   <%= link_to 'Edit', edit_book_path(@book), :class => 'btn' %>
   <%= link_to 'Delete', book_path(@book), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
 </div>
-
+<%= @book.tags.to_s%>
 <%unless @recommendBooks.nil? then%>
 <h4>Recommend Books</h4>
 

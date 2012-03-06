@@ -9,7 +9,22 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    #@books = Book.all
+    tags = Book.select("tags")
+
+    tagsHash = Hash.new
+    tags.each do |t|
+      t[:tags].to_s.split.each do |tag|
+        unless tagsHash.has_key?(tag)
+        then  tagsHash.store(tag,0)
+        end
+        tagsHash[tag] = tagsHash[tag] + 1
+      end
+    end
+
+    @tagsArray = Hash[tagsHash.sort_by{|k,v| -v}.first 10].keys
+
+
+
     @books = Book.paginate(:page => params[:page], :per_page => 30)
     respond_to do |format|
       format.html # index.html.erb
@@ -23,33 +38,45 @@ class BooksController < ApplicationController
 
     @book = Book.find(params[:id])
 
-    recommender = BookRecommender.new
-    reBooks = recommender.recommend(@book.id)
+    reBooks = BookRecommender.instance.recommend(@book.id)
 
     bookidArray = reBooks.map do |book|
       if book.similarity > 0.5 then book.item_id end
     end
 
-    isbn= @book.isbn
-    str = "http://api.douban.com/book/subject/isbn/"+isbn
+    str = "http://api.douban.com/book/subject/isbn/"+@book.isbn
 
     url = URI.parse(str)
     response = Net::HTTP.get_response(url)
     doc = Document.new response.body.to_s
+    #
+    #if doc.root.nil?
+    #  render :nothing => true, :status => "412" and return false
+    #end
+    #
 
-    imageURL = doc.root.elements["link"].next_element.next_element.attributes["href"]
+    tags = String.new
+    doc.root.elements.each('db:tag') {|e|tags +=e.attributes["name"] + ' '}
+    summary = doc.root.elements["summary"]
+    #@book.tags =  tags
 
-    index = imageURL=~/spic/
-    imageURL[index,1] = "l"
 
-    data = open(imageURL){|f|f.read}
-    open("public/assets/books/"+isbn+".jpg","wb"){|f|f.write(data)}
 
-    if doc.root.nil?
-      render :nothing => true, :status => "412" and return false
-    end
+    #puts "tags count is "+tags.count.to_s
+    ##puts tags[1][:tags].inspect
+    #tagsHash = Hash.new
+    #tags.each do |e|
+    #  e[:tags].split.each do |key,value|
+    #    if tagsHash.has_key?(t).each do |h|
+    #      h.value = h.value + 1
+    #    end
+    #    else
+    #      tagsHash.store(t,0)
+    #    end
+    #  end
+    #end
+    #puts tagsHash.inspect
 
-    puts bookidArray.inspect
     if bookidArray.first !=nil
       @recommendBooks = Book.find(bookidArray)
     end
@@ -58,6 +85,12 @@ class BooksController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @book }
     end
+  end
+
+  def tag
+    @tag = params[:id]
+    @books = Book.where("tags LIKE '%#{params[:tagnum]}%'")
+    puts @books.inspect
   end
 
   # GET /books/new
@@ -101,13 +134,18 @@ class BooksController < ApplicationController
 
     imageURL = doc.root.elements["link"].next_element.next_element.attributes["href"]
 
+    tags = String.new
+    doc.root.elements.each('db:tag') {|e|tags +=e.attributes["name"] + ' '}
+
+    summary = doc.root.elements["summary"].text
+
     index = imageURL=~/spic/
     imageURL[index,1] = "l"
 
     data = open(imageURL){|f|f.read}
     open("public/assets/books/"+isbn+".jpg","wb"){|f|f.write(data)}
 
-    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0')
+    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0',:tags => tags,:summary => summary)
 
     if iOS_user_agent?
       if @book.save

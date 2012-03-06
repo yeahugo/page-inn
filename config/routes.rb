@@ -92,6 +92,7 @@ Page::Application.routes.draw do
 
   match "matrix/:code" => "users#matrix"
   match "matrix/:code/return" => "users#matrix"
+  match "books/tag/:tagnum" =>"books#tag"
 
   root :to => "books#index"
 end
