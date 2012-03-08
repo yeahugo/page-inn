@@ -9,23 +9,9 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    tags = Book.select("tags")
+    @tagsArray = Tag.instance.toptags
 
-    tagsHash = Hash.new
-    tags.each do |t|
-      t[:tags].to_s.split.each do |tag|
-        unless tagsHash.has_key?(tag)
-        then  tagsHash.store(tag,0)
-        end
-        tagsHash[tag] = tagsHash[tag] + 1
-      end
-    end
-
-    @tagsArray = Hash[tagsHash.sort_by{|k,v| -v}.first 10].keys
-
-
-
-    @books = Book.paginate(:page => params[:page], :per_page => 30)
+    @books = Book.paginate(:page => params[:page], :per_page => 21)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -40,42 +26,9 @@ class BooksController < ApplicationController
 
     reBooks = BookRecommender.instance.recommend(@book.id)
 
-    bookidArray = reBooks.map do |book|
-      if book.similarity > 0.5 then book.item_id end
+    bookidArray = reBooks.sort_by{|e| -e.similarity.to_f}.first(5).map do |book|
+      book.item_id
     end
-
-    str = "http://api.douban.com/book/subject/isbn/"+@book.isbn
-
-    url = URI.parse(str)
-    response = Net::HTTP.get_response(url)
-    doc = Document.new response.body.to_s
-    #
-    #if doc.root.nil?
-    #  render :nothing => true, :status => "412" and return false
-    #end
-    #
-
-    tags = String.new
-    doc.root.elements.each('db:tag') {|e|tags +=e.attributes["name"] + ' '}
-    summary = doc.root.elements["summary"]
-    #@book.tags =  tags
-
-
-
-    #puts "tags count is "+tags.count.to_s
-    ##puts tags[1][:tags].inspect
-    #tagsHash = Hash.new
-    #tags.each do |e|
-    #  e[:tags].split.each do |key,value|
-    #    if tagsHash.has_key?(t).each do |h|
-    #      h.value = h.value + 1
-    #    end
-    #    else
-    #      tagsHash.store(t,0)
-    #    end
-    #  end
-    #end
-    #puts tagsHash.inspect
 
     if bookidArray.first !=nil
       @recommendBooks = Book.find(bookidArray)
@@ -88,7 +41,7 @@ class BooksController < ApplicationController
   end
 
   def tag
-    @tag = params[:id]
+    #@tag = params[:tagnum].to_s
     @books = Book.where("tags LIKE '%#{params[:tagnum]}%'")
     puts @books.inspect
   end

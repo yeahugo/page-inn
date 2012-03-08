@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Page</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -19,7 +18,7 @@
         <ul class="nav">
           <li><%= link_to "Browse Books", books_path %></li>
           <li><%= if user_signed_in? then link_to 'My Books',showbooks_user_path(current_user.id)  end%></li>
-          <li><%= link_to "Browse Ebooks",ebooks_path %></li>
+
           <li><%= if user_signed_in? then  link_to 'Logout',destroy_user_session_path
                   else link_to 'Login', pageinn_login_path  end %></li>
         </ul>
@@ -27,9 +26,9 @@
     </div>
   </div>
 </div>
+<br><br><br>
 <div class="container">
-  <%= yield %>
-
+<%= yield %>
 <footer class="footer"><p>Company 2012</p></footer>
 </div>
 </body>
