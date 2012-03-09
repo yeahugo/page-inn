@@ -98,7 +98,7 @@ class BooksController < ApplicationController
     data = open(imageURL){|f|f.read}
     open("public/assets/books/"+isbn+".jpg","wb"){|f|f.write(data)}
 
-    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0',:tags => tags,:summary => summary)
+    @book = Book.new(:title => title, :author => author, :isbn => isbn, :path =>'', :status => '0',:tags => tags,:summary => summary)
 
     if iOS_user_agent?
       if @book.save

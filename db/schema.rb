@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120306063546) do
+ActiveRecord::Schema.define(:version => 20120309031255) do
 
   create_table "book_userships", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.integer  "book_id",    :null => false
-    t.integer  "is_lend",    :null => false
+    t.integer  "user_id"
+    t.integer  "book_id"
+    t.integer  "is_lend"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -25,61 +25,28 @@ ActiveRecord::Schema.define(:version => 20120306063546) do
     t.string   "title"
     t.string   "author"
     t.string   "isbn"
-    t.string   "root"
-    t.integer  "status",     :default => 0, :null => false
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.integer  "status"
     t.integer  "owner"
     t.string   "tags"
     t.text     "summary"
-  end
-
-  create_table "ebooks", :force => true do |t|
-    t.string   "root"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.integer  "book_id"
-  end
-
-  create_table "pagebook_userships", :force => true do |t|
-    t.integer  "pagebook_id"
-    t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
-  create_table "pagebooks", :force => true do |t|
-    t.string   "code"
-    t.integer  "status",     :default => 0, :null => false
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-    t.integer  "book_id"
-  end
-
-  create_table "people", :force => true do |t|
-    t.string   "name"
-    t.text     "bio"
-    t.date     "birthday"
+    t.string   "path"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email",                               :default => "", :null => false
-    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                       :default => "", :null => false
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
-    t.string   "remember_token"
+    t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       :default => 0
+    t.integer  "sign_in_count",          :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
-    t.string   "matrixcode"
-    t.string   "udid"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

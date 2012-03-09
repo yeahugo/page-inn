@@ -1,8 +1,6 @@
 Page::Application.routes.draw do
   #resources :book_userships
 
-  resources :ebooks
-
   devise_for :users
 
   resources :users do
@@ -78,8 +76,6 @@ Page::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  get "welcome/say_hello" => "welcome#say"
-  get "welcome" => "welcome#index"
   get "pageinn" => "pageinn#index"
   get "pageinn/login" => "pageinn#login"
 
