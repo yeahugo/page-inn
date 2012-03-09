@@ -2,31 +2,6 @@
   <div class="row-fluid">
 
     <div class="span9 bookshell">
-      <!--<table class="table table-striped">-->
-        <!--<thead>-->
-        <!--<tr>-->
-          <!--<th>Title</th>-->
-          <!--<th>Author</th>-->
-          <!--<th>Status</th>-->
-          <!--<th>Created at</th>-->
-          <!--<th>Actions</th>-->
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<% @books.each do |book| %>-->
-            <!--<tr>-->
-              <!--<td><%= link_to book.title, book_path(book) %></td>-->
-              <!--<td><%= book.author%></td>-->
-              <!--<td><%= if book.status==0 then 'in' else 'out'end%></td>-->
-              <!--<td><%= book.created_at %></td>-->
-              <!--<td>-->
-                <!--<%= link_to 'Edit', edit_book_path(book), :class => 'btn btn-mini' %>-->
-                <!--<%= link_to 'Destroy', book_path(book), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>-->
-              <!--</td>-->
-            <!--</tr>-->
-        <!--<% end %>-->
-        <!--</tbody>-->
-      <!--</table>-->
 
       <ul class="thumbnails">
         <% @books.each do |book|unless book.isbn.nil? then %>

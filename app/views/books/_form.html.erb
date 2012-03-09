@@ -23,13 +23,14 @@
       </div>
     </div>
 
+    <% if @book.path.nil?%>
     <div class="control-group">
-      <%= f.label :root, :class => 'control-label' %>
+      <%= f.label :path, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :root, :class => 'text_field' %>
+        <%= f.text_field :path, :class => 'text_field' %>
       </div>
     </div>
-
+    <% end %>
 
     <div class="control-group">
       <%= f.label :owner, :class => 'control-label' %>
