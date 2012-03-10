@@ -1,7 +1,7 @@
 Page::Application.routes.draw do
-  #resources :book_userships
+  resources :book_userships
 
-  devise_for :users
+  devise_for :users ,:path_names => { :sign_in => 'login', :sign_out => 'logout', :password => 'secret', :confirmation => 'verification', :unlock => 'unblock', :registration => 'register', :sign_up => 'cmon_let_me_in' }
 
   resources :users do
     member do
@@ -76,8 +76,6 @@ Page::Application.routes.draw do
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
-  get "welcome/say_hello" => "welcome#say"
-  get "welcome" => "welcome#index"
   get "pageinn" => "pageinn#index"
   get "pageinn/login" => "pageinn#login"
 
@@ -90,6 +88,7 @@ Page::Application.routes.draw do
 
   match "matrix/:code" => "users#matrix"
   match "matrix/:code/return" => "users#matrix"
+  match "books/tag/:tagnum" =>"books#tag"
 
   root :to => "books#index"
 end

@@ -1,36 +1,40 @@
-<h1>Listing books</h1>
-<div><%= if user_signed_in? then  link_to 'Logout',destroy_user_session_path
-         else link_to 'Login', pageinn_login_path  end %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= if user_signed_in? then link_to 'My Books',showbooks_user_path(current_user.id)  end%></div>
-  <table>
-  <tr>
-    <th>Title</th>
-    <th>Author</th>
-    <th>Isbn</th>
+<div class="container-fluid">
+  <div class="row-fluid">
 
-    <th>Status</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+    <div class="span9 bookshell">
+      <br>
+      <ul class="thumbnails">
+        <% @books.each do |book|unless book.isbn.nil? then %>
+            <li class="span2" style="height:120px;TEXT-ALIGN:center">
+              <a href="<%= book_path(book) %>">
+                <%=  image_tag "books/"+book.isbn+".jpg", {:width => 55}%>
+                <p><%= book.title%></p>
+                <p><%= book.author%></p>
+              </a>
+            </li>
+        <% end end%>
+      </ul>
+      
+      <!--<%= link_to 'New', new_book_path, :class => 'btn btn-primary' %>-->
+      <div class="apple_pagination">
+        <%= will_paginate @posts, :container => false %>
+      </div>
+      </div>
 
-<% @books.each do |book| %>
-  <tr>
-    <td><%= book.title %></td>
-    <td><%= book.author %></td>
-    <td><%= book.isbn %></td>
+    <div class="span2" >
+      <br>
+      <h4>Tags</h4>
+      <ul class="nav nav-pills nav-stacked">
+        <% @tagsArray.each do |tag|%>
+        <li><a href='/books/tag/<%= tag%>'>
+          <%= tag%>
+        </a></li>
+        <%end%>
+       </ul>
+    </div>
 
-    <td><%= if book.status == 0 && user_signed_in?
-             link_to 'borrow',lend_book_path(book)
-             elsif book.status == 0 && !(user_signed_in?)
-             'in'
-            else 'out' end%></td>
-    <td><%= link_to 'Show', book %></td>
-    <td><%= link_to 'Edit', edit_book_path(book) %></td>
-    <td><%= link_to 'Destroy', book, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
+  </div>
+</div>
 
-<br />
 
-<%= link_to 'New Book', new_book_path %>
+

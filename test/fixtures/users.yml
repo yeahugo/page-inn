@@ -1,11 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 one:
-  name: MyString
-  password: MyString
-  email: MyString
+  email: abc@uemng.com
+  encrypted_password: $2a$10$nv2U06dAP4MB1T8AzbBsHuUv7WgLgx3PxyVaOZ1bdMOsQS054bv.m
+  sign_in_count: 9
 
 two:
-  name: MyString
-  password: MyString
-  email: MyString
+  email: cde@uemng.com
+  encrypted_password: $2a$10$nv2U06dAP4MB1T8AzbBsHuUv7WgLgx3PxyVaOZ1bdMOsQS054bv.m
+  sign_in_count: 9
+#two:{}

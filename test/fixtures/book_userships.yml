@@ -3,9 +3,9 @@
 one:
   user_id: 1
   book_id: 1
-  type: 1
+  is_lend: 1
 
 two:
   user_id: 1
   book_id: 1
-  type: 1
+  is_lend: 1

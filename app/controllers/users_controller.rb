@@ -47,7 +47,7 @@ class UsersController < ApplicationController
   end
 
   def showbooks
-    @books = Book.joins('LEFT OUTER JOIN users ON books.status = users.id')
+    @books = Book.joins('INNER JOIN users ON books.status = users.id')
     #@books = Book.joins(:user).where("users.id = ? and status != '0'",current_user.id)
     puts @books.inspect
     respond_to do |format|

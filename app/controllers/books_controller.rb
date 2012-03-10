@@ -1,14 +1,17 @@
 require 'net/http'
 require "uri"
 require "rexml/document"
+require "open-uri"
+
 include REXML
 
 class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.all
+    @tagsArray = Tag.instance.toptags
 
+    @books = Book.paginate(:page => params[:page], :per_page => 20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -21,10 +24,26 @@ class BooksController < ApplicationController
 
     @book = Book.find(params[:id])
 
+    reBooks = BookRecommender.instance.recommend(@book.id)
+
+    bookidArray = reBooks.sort_by{|e| -e.similarity.to_f}.first(5).map do |book|
+      book.item_id
+    end
+
+    if bookidArray.first !=nil
+      @recommendBooks = Book.find(bookidArray)
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @book }
     end
+  end
+
+  def tag
+    #@tag = params[:tagnum].to_s
+    @books = Book.where("tags LIKE '%#{params[:tagnum]}%'")
+    puts @books.inspect
   end
 
   # GET /books/new
@@ -64,9 +83,26 @@ class BooksController < ApplicationController
     end
 
     title  = doc.root.elements["title"].text
-    author = doc.root.elements["author"].elements["name"].text
+    unless author = doc.root.elements["author"].nil? then
+      author = doc.root.elements["author"].elements["name"].text
+    end
 
-    @book = Book.new(:title => title, :author => author, :isbn => isbn, :root =>'', :status => '0')
+    imageURL = doc.root.elements["link"].next_element.next_element.attributes["href"]
+
+    tags = String.new
+    doc.root.elements.each('db:tag') {|e|tags +=e.attributes["name"] + ' '}
+
+    unless doc.root.elements["summary"].nil? then
+      summary = doc.root.elements["summary"].text
+    end
+
+    index = imageURL=~/spic/
+    imageURL[index,1] = "l"
+
+    data = open(imageURL){|f|f.read}
+    open("public/assets/books/"+isbn+".jpg","wb"){|f|f.write(data)}
+
+    @book = Book.new(:title => title, :author => author, :isbn => isbn, :path =>'', :status => '0',:tags => tags,:summary => summary)
 
     if iOS_user_agent?
       if @book.save
@@ -208,10 +244,20 @@ class BooksController < ApplicationController
   # POST /books
   # POST /books.json
   def create
-    @book = Book.new(params[:book])
-
     puts params[:book].inspect
 
+    unless params[:book][:root].nil?
+      directory = "/Users/ios_umeng/Public/eBook/"
+      puts params.inspect
+      path = File.join(directory, params[:book][:root].original_filename)
+
+      File.open(path, "wb") { |f| f.write(params[:book]['root'].read) }
+
+      params[:book][:root] = path
+      @book = Book.new(params[:book])
+    else
+      @book = Book.new(params[:book])
+    end
     respond_to do |format|
       if @book.save
         format.html { redirect_to @book, notice: 'Book was successfully created.' }
@@ -222,6 +268,7 @@ class BooksController < ApplicationController
       end
     end
   end
+
 
   # PUT /books/1
   # PUT /books/1.json
