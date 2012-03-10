@@ -2,7 +2,7 @@
   <div class="row-fluid">
 
     <div class="span9 bookshell">
-
+      <br>
       <ul class="thumbnails">
         <% @books.each do |book|unless book.isbn.nil? then %>
             <li class="span2" style="height:120px;TEXT-ALIGN:center">
@@ -22,6 +22,7 @@
       </div>
 
     <div class="span2" >
+      <br>
       <h4>Tags</h4>
       <ul class="nav nav-pills nav-stacked">
         <% @tagsArray.each do |tag|%>

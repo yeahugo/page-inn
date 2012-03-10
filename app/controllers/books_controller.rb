@@ -11,7 +11,7 @@ class BooksController < ApplicationController
   def index
     @tagsArray = Tag.instance.toptags
 
-    @books = Book.paginate(:page => params[:page], :per_page => 21)
+    @books = Book.paginate(:page => params[:page], :per_page => 20)
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @books }
@@ -83,14 +83,18 @@ class BooksController < ApplicationController
     end
 
     title  = doc.root.elements["title"].text
-    author = doc.root.elements["author"].elements["name"].text
+    unless author = doc.root.elements["author"].nil? then
+      author = doc.root.elements["author"].elements["name"].text
+    end
 
     imageURL = doc.root.elements["link"].next_element.next_element.attributes["href"]
 
     tags = String.new
     doc.root.elements.each('db:tag') {|e|tags +=e.attributes["name"] + ' '}
 
-    summary = doc.root.elements["summary"].text
+    unless doc.root.elements["summary"].nil? then
+      summary = doc.root.elements["summary"].text
+    end
 
     index = imageURL=~/spic/
     imageURL[index,1] = "l"
