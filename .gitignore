@@ -52,7 +52,7 @@ profile
 .DS_Store
 .idea
 .idea/*
-
+.idea/*/*
 =======
 .DS_Store
 >>>>>>> refs/heads/develop
