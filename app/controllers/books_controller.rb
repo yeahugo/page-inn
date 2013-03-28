@@ -14,7 +14,7 @@ class BooksController < ApplicationController
     @books = Book.paginate(:page => params[:page], :per_page => 20)
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @books }
+      format.json { render :json => @books }
     end
   end
 
@@ -36,7 +36,7 @@ class BooksController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @book }
+      format.json { render :json => @book }
     end
   end
 
@@ -143,20 +143,20 @@ class BooksController < ApplicationController
       udid = params[:udid]
 
       unless user = User.where("udid = ?",udid).first
-        render :nothing => true, :status => 413, and  return false
+        render :nothing => true, :status => 413 and  return false
       end
 
       unless book = Book.where("isbn = ?",params[:isbn]).first
-        render :nothing =>true, :status => 412, and return false
+        render :nothing =>true, :status => 412 and return false
       end
       unless book = Book.where("isbn = ? and status = ?",params[:isbn],user.id).first
-        render :nothing =>true, :status =>414, and return false
+        render :nothing =>true, :status =>414  and return false
       end
 
       Book.update(book, :status => "0")
       bookUsership = BookUsership.create(:user_id => user.id,:book_id => book.id , :is_lend =>0)
       if bookUsership.save
-        render :nothing =>true, :status => 212, and return false
+        render :nothing =>true, :status => 212 and return false
       end
 
     else
@@ -227,16 +227,16 @@ class BooksController < ApplicationController
   #用二维码还书
   def returnmatrix
     unless book = Book.where("isbn = ?",params[:isbn]).first
-      render :nothing =>true, :status => 412, and return false
+      render :nothing =>true, :status => 412  and return false
     end
     unless book = Book.where("isbn = ? and status = ?",params[:isbn],session[:current_user_id]).first
-      render :nothing =>true, :status =>414, and return false
+      render :nothing =>true, :status =>414 and return false
     end
 
     Book.update(book, :status => "0")
     bookUsership = BookUsership.create(:user_id => session[:current_user_id],:book_id => book.id , :is_lend =>0)
     if bookUsership.save
-      render :nothing =>true, :status => 212, and return false
+      render :nothing =>true, :status => 212 and return false
     end
 
   end

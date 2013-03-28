@@ -26,6 +26,8 @@
 		38BC079314F25B7F000C9012 /* zbar-samples.png in Resources */ = {isa = PBXBuildFile; fileRef = 38BC078E14F25B7F000C9012 /* zbar-samples.png */; };
 		38BC07A814F25C21000C9012 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38BC07A714F25C21000C9012 /* QuartzCore.framework */; };
 		38F0E81314F5E6BD00EDEA07 /* sign_in.html in Resources */ = {isa = PBXBuildFile; fileRef = 38F0E81214F5E6BD00EDEA07 /* sign_in.html */; };
+		D518A99E16D4804200893507 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D518A99D16D4804200893507 /* Default-568h@2x.png */; };
+		D570EC701702C7A300BF85CF /* UMSocialOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D570EC6F1702C7A300BF85CF /* UMSocialOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +75,9 @@
 		38BC07A714F25C21000C9012 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		38F0E81214F5E6BD00EDEA07 /* sign_in.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sign_in.html; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* pagePhone-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "pagePhone-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		D518A99D16D4804200893507 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D570EC6E1702C7A300BF85CF /* UMSocialOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialOperation.h; sourceTree = "<group>"; };
+		D570EC6F1702C7A300BF85CF /* UMSocialOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMSocialOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +103,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D570EC6E1702C7A300BF85CF /* UMSocialOperation.h */,
+				D570EC6F1702C7A300BF85CF /* UMSocialOperation.m */,
 				1D3623240D0F684500981E51 /* pagePhoneAppDelegate.h */,
 				1D3623250D0F684500981E51 /* pagePhoneAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* pagePhoneViewController.h */,
@@ -117,6 +124,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				D518A99D16D4804200893507 /* Default-568h@2x.png */,
 				38BC077114F25B7F000C9012 /* ZBarSDK */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -251,6 +259,9 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "pagePhone" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -282,6 +293,7 @@
 				38BC079214F25B7F000C9012 /* zbar-helpicons.png in Resources */,
 				38BC079314F25B7F000C9012 /* zbar-samples.png in Resources */,
 				38F0E81314F5E6BD00EDEA07 /* sign_in.html in Resources */,
+				D518A99E16D4804200893507 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,6 +307,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* pagePhoneAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* pagePhoneViewController.m in Sources */,
+				D570EC701702C7A300BF85CF /* UMSocialOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,7 +324,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = pagePhone_Prefix.pch;
 				INFOPLIST_FILE = "pagePhone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ZBarSDK\"",
@@ -328,7 +341,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = pagePhone_Prefix.pch;
 				INFOPLIST_FILE = "pagePhone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/ZBarSDK\"",
@@ -341,12 +354,12 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -354,13 +367,13 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = armv7;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PREBINDING = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Release;

@@ -25,6 +25,9 @@ typedef enum{
 	Action theAction;
 	UIWebView *loginWebView;
 	NSString *codeString;
+    NSString *_hostString;
+    UIActivityIndicatorView *_activityIndicatorView;
+    NSOperationQueue *_operationQueue;
 }
 
 @property (nonatomic, retain) IBOutlet UITextView *resultText;

@@ -40,9 +40,9 @@ class UsersController < ApplicationController
   def matrix
     if user = User.where("users.matrixcode = ?",params[:code]).first
       session[:current_user_id] = user.id
-      render :nothing =>true, :status => 211, and return
+      render :nothing =>true, :status => 211 and return
     else
-      render :nothing =>true, :status => 412, and return
+      render :nothing =>true, :status => 412 and return
     end
   end
 

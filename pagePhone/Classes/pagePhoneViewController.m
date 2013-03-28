@@ -42,12 +42,15 @@
 	label.backgroundColor = [UIColor clearColor];
 	
 	resultText = [[UITextView alloc] initWithFrame:CGRectMake(170, 150, 120, 50)];
+    resultText.editable = NO;
 	resultText.textAlignment = UITextAlignmentRight;
 	
 	resultText.backgroundColor = [UIColor clearColor];
 	[self.view addSubview:label];
 	[self.view addSubview:resultText];
-
+    _hostString = [[NSString alloc] initWithFormat:@"http://10.18.101.29:3000"];
+    _activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(200, 300, 50, 40)];
+    [self.view addSubview:_activityIndicatorView];
 }
 
 
@@ -134,10 +137,11 @@
 -(void)sendRequest
 {
 	NSMutableString *urlString = [[NSMutableString alloc] init];
+    [_activityIndicatorView startAnimating];
 	switch (theAction) {
 		case Add:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/books/"];
+			[urlString appendString:[NSString stringWithFormat:@"%@/books/",_hostString]];
 
 			[urlString appendString:@"isbn/"];
 			[urlString appendString:codeString];
@@ -145,7 +149,7 @@
 		}
 		case Borrow:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/books/"];
+			[urlString appendString:[NSString stringWithFormat:@"%@/books/",_hostString]];
 
 			[urlString appendString:codeString];
 			[urlString appendString:@"/users/"];
@@ -156,7 +160,7 @@
 		}
 		case Return:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/books/"];
+			[urlString appendString:[NSString stringWithFormat:@"%@/books/",_hostString]];
 
 			NSString *udidString = [[UIDevice currentDevice] uniqueIdentifier];
 			[urlString appendString:codeString];
@@ -167,27 +171,28 @@
 		}
 		case BorrowMatrix:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/matrix/"];
+            [urlString appendString:[NSString stringWithFormat:@"%@/matrix/",_hostString]];
+
 			[urlString appendString:codeString];
 			break;		
 		}
 		case ReturnMatrix:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/matrix/"];
+            [urlString appendString:[NSString stringWithFormat:@"%@/matrix/",_hostString]];
 			[urlString appendString:codeString];
 			[urlString appendString:@"/return"];
 			break;
 		}
 		case BorrowBookMatrix:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/booksmatrix/"];
+            [urlString appendString:[NSString stringWithFormat:@"%@/booksmatrix/",_hostString]];
 			[urlString appendString:codeString];
 			theAction = Borrow;
 			break;		
 		}
 		case ReturnBookMatrix:
 		{
-			[urlString appendString:@"http://10.18.101.249:3000/booksmatrix/"];
+            [urlString appendString:[NSString stringWithFormat:@"%@/booksmatrix/",_hostString]];
 			[urlString appendString:codeString];
 			[urlString appendString:@"/return"];
 			theAction = Return;
@@ -222,6 +227,7 @@
 #pragma mark NSURLConnection
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    [_activityIndicatorView stopAnimating];
 	NSInteger statusCode = [(NSHTTPURLResponse*)response statusCode];
 	NSLog(@"status code is %d",statusCode);
 	switch (theAction) {
@@ -345,6 +351,13 @@
 		default:
 			break;
 	}	
+}
+
+- (void)connection:(NSURLConnection *)theConnection didFailWithError:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"失败" message:@"服务器连接失败" delegate:nil cancelButtonTitle:@"好" otherButtonTitles: nil];
+    [alertView show];
+    NSLog(@"error is %@",error);
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
