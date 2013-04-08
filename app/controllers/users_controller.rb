@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'rqrcode'
+
 class UsersController < ApplicationController
   # GET /users
   # GET /users.json
@@ -47,9 +50,11 @@ class UsersController < ApplicationController
   end
 
   def showbooks
+    @user = User.find(params[:id])
+    @qr = RQRCode::QRCode.new( @user.email, :size => 3, :level => :h )
+
     @books = Book.joins('INNER JOIN users ON books.status = users.id')
     #@books = Book.joins(:user).where("users.id = ? and status != '0'",current_user.id)
-    puts @books.inspect
     respond_to do |format|
       format.html
       format.json { render json: @books}
